@@ -19,7 +19,7 @@ use cdrs::types::prelude::*;
 type CurrentSession = Session<RoundRobinSync<TcpConnectionPool<NoneAuthenticator>>>;
 
 fn main() {
-  let node = NodeTcpConfigBuilder::new("127.0.0.1:9042", NoneAuthenticator {}).build();
+  let node = NodeTcpConfigBuilder::new("127.0.0.1:9042".to_owned(), NoneAuthenticator {}).build();
   let cluster_config = ClusterTcpConfig(vec![node]);
   let lb = RoundRobinSync::new();
   let no_compression: Arc<CurrentSession> =

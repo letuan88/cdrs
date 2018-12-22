@@ -13,7 +13,7 @@ use cdrs::load_balancing::RoundRobin;
 const _ADDR: &'static str = "127.0.0.1:9042";
 
 fn main() {
-  let node = NodeTcpConfigBuilder::new("127.0.0.1:9042", NoneAuthenticator {}).build();
+  let node = NodeTcpConfigBuilder::new("127.0.0.1:9042".to_owned(), NoneAuthenticator {}).build();
   let cluster_config = ClusterTcpConfig(vec![node]);
   let lb = RoundRobin::new();
   let no_compression = new_session(&cluster_config, lb).expect("session should be created");

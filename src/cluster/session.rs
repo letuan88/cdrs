@@ -116,7 +116,7 @@ impl<
 /// * cluster config
 /// * load balancing strategy (cannot be changed during `Session` life time).
 pub fn new<A, LB>(
-  node_configs: &ClusterTcpConfig<'static, A>,
+  node_configs: &ClusterTcpConfig<A>,
   mut load_balancing: LB,
 ) -> error::Result<Session<LB>>
 where
@@ -144,7 +144,7 @@ where
 /// * cluster config
 /// * load balancing strategy (cannot be changed during `Session` life time).
 pub fn new_snappy<A, LB>(
-  node_configs: &ClusterTcpConfig<'static, A>,
+  node_configs: &ClusterTcpConfig<A>,
   mut load_balancing: LB,
 ) -> error::Result<Session<LB>>
 where
@@ -172,7 +172,7 @@ where
 /// * cluster config
 /// * load balancing strategy (cannot be changed during `Session` life time).
 pub fn new_lz4<A, LB>(
-  node_configs: &ClusterTcpConfig<'static, A>,
+  node_configs: &ClusterTcpConfig<A>,
   mut load_balancing: LB,
 ) -> error::Result<Session<LB>>
 where

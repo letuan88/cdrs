@@ -5,12 +5,12 @@ use std::time::Duration;
 use authenticators::Authenticator;
 
 /// Cluster configuration that holds per node SSL configs
-pub struct ClusterSslConfig<'a, A: Authenticator + Sized>(pub Vec<NodeSslConfig<'a, A>>);
+pub struct ClusterSslConfig<A: Authenticator + Sized>(pub Vec<NodeSslConfig<A>>);
 
 /// Single node SSL connection config.
 #[derive(Clone)]
-pub struct NodeSslConfig<'a, A> {
-  pub addr: &'a str,
+pub struct NodeSslConfig<A> {
+  pub addr: String,
   pub authenticator: A,
   pub ssl_connector: SslConnector,
   pub max_size: u32,
@@ -21,8 +21,8 @@ pub struct NodeSslConfig<'a, A> {
 }
 
 /// Builder structure that helps to configure SSL connection for node.
-pub struct NodeSslConfigBuilder<'a, A> {
-  addr: &'a str,
+pub struct NodeSslConfigBuilder<A> {
+  addr: String,
   authenticator: A,
   ssl_connector: SslConnector,
   max_size: Option<u32>,
@@ -32,7 +32,7 @@ pub struct NodeSslConfigBuilder<'a, A> {
   connection_timeout: Option<Duration>,
 }
 
-impl<'a, A: Authenticator + Sized> NodeSslConfigBuilder<'a, A> {
+impl<A: Authenticator + Sized> NodeSslConfigBuilder<A> {
   const DEFAULT_MAX_SIZE: u32 = 10;
   const DEFAULT_CONNECTION_TIMEOUT: Duration = Duration::from_secs(30);
 
@@ -40,12 +40,12 @@ impl<'a, A: Authenticator + Sized> NodeSslConfigBuilder<'a, A> {
   /// * node socket address as a string
   /// * authenticator
   /// * SSL connector structure (for more details see [openssl docs](https://docs.rs/openssl/0.10.12/openssl/ssl/struct.SslConnector.html))
-  }); 
-  pub fn new<'b>(
-    addr: &'b str,
+  });
+  pub fn new(
+    addr: String,
     authenticator: A,
     ssl_connector: SslConnector,
-  ) -> NodeSslConfigBuilder<'b, A> {
+  ) -> NodeSslConfigBuilder<A> {
     NodeSslConfigBuilder {
       addr,
       authenticator,
@@ -105,7 +105,7 @@ impl<'a, A: Authenticator + Sized> NodeSslConfigBuilder<'a, A> {
   }
 
   /// Finalizes building process and returns `NodeSslConfig`
-  pub fn build(self) -> NodeSslConfig<'a, A> {
+  pub fn build(self) -> NodeSslConfig<A> {
     NodeSslConfig {
       addr: self.addr,
       authenticator: self.authenticator,

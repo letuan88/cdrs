@@ -15,7 +15,7 @@ pub fn setup(create_table_cql: &'static str) -> Result<CurrentSession> {
 }
 
 pub fn setup_multiple(create_cqls: &[&'static str]) -> Result<CurrentSession> {
-  let node = NodeTcpConfigBuilder::new(ADDR, NoneAuthenticator {}).build();
+  let node = NodeTcpConfigBuilder::new(ADDR.to_owned(), NoneAuthenticator {}).build();
   let cluster_config = ClusterTcpConfig(vec![node]);
   let lb = RoundRobin::new();
   let session = new_session(&cluster_config, lb).expect("session should be created");

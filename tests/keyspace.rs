@@ -15,7 +15,7 @@ const ADDR: &'static str = "127.0.0.1:9042";
 #[test]
 #[ignore]
 fn create_keyspace() {
-        let node = NodeTcpConfigBuilder::new("127.0.0.1:9042", NoneAuthenticator {}).build();
+        let node = NodeTcpConfigBuilder::new("127.0.0.1:9042".to_owned(), NoneAuthenticator {}).build();
         let cluster_config = ClusterTcpConfig(vec![node]);
         let lb = RoundRobin::new();
         let session = new_session(&cluster_config, lb).expect("session should be created");
@@ -80,7 +80,7 @@ fn create_keyspace() {
 #[test]
 #[ignore]
 fn alter_keyspace() {
-        let node = NodeTcpConfigBuilder::new("127.0.0.1:9042", NoneAuthenticator {}).build();
+        let node = NodeTcpConfigBuilder::new("127.0.0.1:9042".to_owned(), NoneAuthenticator {}).build();
         let cluster_config = ClusterTcpConfig(vec![node]);
         let lb = RoundRobin::new();
         let session = new_session(&cluster_config, lb).expect("session should be created");
@@ -136,7 +136,7 @@ fn alter_keyspace() {
 #[test]
 #[ignore]
 fn use_keyspace() {
-        let node = NodeTcpConfigBuilder::new("127.0.0.1:9042", NoneAuthenticator {}).build();
+        let node = NodeTcpConfigBuilder::new("127.0.0.1:9042".to_owned(), NoneAuthenticator {}).build();
         let cluster_config = ClusterTcpConfig(vec![node]);
         let lb = RoundRobin::new();
         let session = new_session(&cluster_config, lb).expect("session should be created");
@@ -165,7 +165,7 @@ fn use_keyspace() {
 #[test]
 #[ignore]
 fn drop_keyspace() {
-        let node = NodeTcpConfigBuilder::new("127.0.0.1:9042", NoneAuthenticator {}).build();
+        let node = NodeTcpConfigBuilder::new("127.0.0.1:9042".to_owned(), NoneAuthenticator {}).build();
         let cluster_config = ClusterTcpConfig(vec![node]);
         let lb = RoundRobin::new();
         let session = new_session(&cluster_config, lb).expect("session should be created");

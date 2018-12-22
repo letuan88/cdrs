@@ -19,7 +19,7 @@ pub type TcpConnectionPool<A> = Pool<TcpConnectionsManager<A>>;
 ///
 /// Used internally for TCP Session for holding connections to a specific Cassandra node.
 pub fn new_tcp_pool<A: Authenticator + Send + Sync + 'static>(
-  node_config: NodeTcpConfig<'static, A>,
+  node_config: NodeTcpConfig<A>,
 ) -> error::Result<TcpConnectionPool<A>> {
   let manager = TcpConnectionsManager::new(node_config.addr, node_config.authenticator);
 
@@ -35,12 +35,12 @@ pub fn new_tcp_pool<A: Authenticator + Send + Sync + 'static>(
 
 /// `r2d2` connection manager.
 pub struct TcpConnectionsManager<A> {
-  addr: &'static str,
+  addr: String,
   auth: A,
 }
 
 impl<A> TcpConnectionsManager<A> {
-  pub fn new(addr: &'static str, auth: A) -> Self {
+  pub fn new(addr: String, auth: A) -> Self {
     TcpConnectionsManager { addr, auth }
   }
 }
